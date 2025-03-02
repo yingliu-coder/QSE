@@ -41,7 +41,7 @@ std = np.array(
      133.96778334724377])
 
 def to_time_bin(x):
-    h, m = map(int, x.split(':'))       # h是小时，m是分钟
+    h, m = map(int, x.split(':'))
     return h
 
 
@@ -109,7 +109,6 @@ def parse_id(id_):
     values[indices] = np.nan
 
     masks = ~np.isnan(values)
-    # 由于去掉百分之十的数据而从eval源数据中去掉了的部分
     eval_masks = (~np.isnan(values)) ^ (~np.isnan(evals))
 
     evals = evals.reshape(shp)
