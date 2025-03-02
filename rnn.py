@@ -57,7 +57,7 @@ class TemporalDecay(nn.Module):
 
         if self.diag == True:
             assert(input_size == output_size)
-            m = torch.eye(input_size, input_size)       # 对角矩阵35维
+            m = torch.eye(input_size, input_size) 
             self.register_buffer('m', m)
 
         self.reset_parameters()
@@ -101,12 +101,12 @@ class Model(nn.Module):
 
 
     def forward(self, x, mask, delta):
-        # Original sequence with 24 time steps   32 * 48 * 35
+        
         values = x
         masks = mask
         deltas = delta
 
-        # h, c    32 * 108
+        
         h = Variable(torch.zeros((values.size()[0], self.rnn_hid_size)))
         c = Variable(torch.zeros((values.size()[0], self.rnn_hid_size)))
 
