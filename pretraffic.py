@@ -67,4 +67,4 @@ data_norm = (data_np - mean) / std
 
 total_data = [parse_id(data_norm)]
 
-np.save('/data/liuying/tsi/process/input/traffic/traffic_missing90.npy', total_data)
+np.save('/traffic/traffic_missing50.npy', total_data)
