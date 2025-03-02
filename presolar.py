@@ -32,7 +32,6 @@ def parse_id(data_line):
 
     evals = evals.reshape(-1)
 
-    # randomly eliminate 10% values as the imputation ground-truth
     indices = np.where(~np.isnan(evals))[0].tolist()
     indices = np.random.choice(indices, len(indices) // 10 * 9)
 
@@ -40,7 +39,6 @@ def parse_id(data_line):
     values[indices] = np.nan
 
     masks = ~np.isnan(values)
-    # 由于去掉百分之十的数据而从eval源数据中去掉了的部分
     eval_masks = (~np.isnan(values)) ^ (~np.isnan(evals))
 
     evals = evals.reshape(shp)
@@ -57,10 +55,8 @@ data_file = np.loadtxt('../../raw/solar/solar.txt', delimiter=',')
 data_np = data_file.T
 data_np = data_np.reshape(-1, 137)
 
-# 生成非零掩码
 mask = data_np != 0
 
-# 计算非零元素的标准差
 filtered_values = np.where(mask, data_np, np.nan)
 mean = np.nanmean(filtered_values, axis=0)
 std = np.nanstd(filtered_values, axis=0)
@@ -75,4 +71,4 @@ for line in data_norm:
     rec = parse_id(line)
     total_data.append(rec)
 
-np.save('../input/solar/solar_missing90.npy', total_data)
+np.save('../input/solar/solar_missing50.npy', total_data)
