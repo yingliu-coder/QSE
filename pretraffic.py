@@ -33,7 +33,6 @@ def parse_id(data_line):
 
     evals = evals.reshape(-1)
 
-    # randomly eliminate 10% values as the imputation ground-truth
     indices = np.where(~np.isnan(evals))[0].tolist()
     indices = np.random.choice(indices, len(indices) // 10 * 9)
 
@@ -41,7 +40,6 @@ def parse_id(data_line):
     values[indices] = np.nan
 
     masks = ~np.isnan(values)
-    # 由于去掉百分之十的数据而从eval源数据中去掉了的部分
     eval_masks = (~np.isnan(values)) ^ (~np.isnan(evals))
 
     evals = evals.reshape(shp)
@@ -54,19 +52,17 @@ def parse_id(data_line):
     rec['backward'] = parse_rec(values[::-1], masks[::-1], evals[::-1], eval_masks[::-1], dir_='backward')
     return rec
 
-data_file = loadmat('/data/liuying/tsi/raw/traffic/traffic.mat')['tensor']
+data_file = loadmat('/raw/traffic/traffic.mat')['tensor']
 data_np = data_file.reshape(-1,  214)[-501:-1, :]
 
-# 生成非零掩码
 mask = data_np != 0
 
-# 计算非零元素的标准差
 filtered_values = np.where(mask, data_np, np.nan)
 mean = np.nanmean(filtered_values, axis=0)
 std = np.nanstd(filtered_values, axis=0)
 
-np.save('/data/liuying/tsi/raw/traffic/mean.npy', mean)
-np.save('/data/liuying/tsi/raw/traffic/std.npy', std)
+np.save('/raw/traffic/mean.npy', mean)
+np.save('/raw/traffic/std.npy', std)
 data_norm = (data_np - mean) / std
 
 total_data = [parse_id(data_norm)]
