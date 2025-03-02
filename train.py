@@ -107,8 +107,8 @@ def train_solar(model, config, loader, train_file, device):
         train_file.write('epoch {}, train loss {:.4f} '.format(epoch, train_total_loss / train_num_batch))
         duration_train += time.time() - train_start
         test_start = time.time()
-        mean = torch.from_numpy(np.load("/data/liuying/tsi/raw/solar/mean.npy")).to(device)
-        std = torch.from_numpy(np.load("/data/liuying/tsi/raw/solar/std.npy")).to(device)
+        mean = torch.from_numpy(np.load("mean.npy")).to(device)
+        std = torch.from_numpy(np.load("std.npy")).to(device)
         model.eval()
         with torch.no_grad():
             test_num_batch = 0
@@ -144,8 +144,8 @@ def train_traffic(model, config, data_input, train_file, device):
     data_forward, data_backward = data_input[0]['forward'], data_input[0]['backward']
     x_f, masks_f, evals_f, eval_masks_f, deltas_f = torch.FloatTensor(data_forward['x']).to(device).unsqueeze(0), torch.FloatTensor(data_forward['masks']).to(device).unsqueeze(0), torch.FloatTensor(data_forward['evals']).to(device).unsqueeze(0), torch.FloatTensor(data_forward['eval_masks']).to(device).unsqueeze(0), torch.FloatTensor(data_forward['deltas']).to(device).unsqueeze(0)
     x_b, masks_b, evals_b, eval_masks_b, deltas_b = torch.FloatTensor(data_backward['x']).to(device).unsqueeze(0), torch.FloatTensor(data_backward['masks']).to(device).unsqueeze(0), torch.FloatTensor(data_backward['evals']).to(device).unsqueeze(0), torch.FloatTensor(data_backward['eval_masks']).to(device).unsqueeze(0), torch.FloatTensor(data_backward['deltas']).to(device).unsqueeze(0)
-    mean = torch.from_numpy(np.load("/data/liuying/tsi/raw/traffic/mean.npy")).to(device)
-    std = torch.from_numpy(np.load("/data/liuying/tsi/raw/traffic/std.npy")).to(device)
+    mean = torch.from_numpy(np.load("mean.npy")).to(device)
+    std = torch.from_numpy(np.load("std.npy")).to(device)
     for epoch in range(config["train"]["epochs"]):
         model.train()
         optimizer.zero_grad()
